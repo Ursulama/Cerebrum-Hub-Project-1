@@ -16,12 +16,13 @@ Assignment 2:
  5. Add comment to the first test containing today’s date
  */
 
-describe('This is first test suite', () => {
+describe('This is my first test suite, Ursula Muser', () => {
     it('User can submit data only when valid mandatory values are added', () => {
+        // 23.04.2024
+        cy.get('[data-testid="phoneNumberTestId"]').type('555666777')
+        cy.get('input[name="password"]').type('Passhere112')
+        cy.get('[name="confirm"]').type('Passhere112')
         cy.get('#username').type('Something')
-        cy.get('[data-testid="phoneNumberTestId"]').type('5656565656')
-        cy.get('input[name="password"]').type('Password123')
-        cy.get('[name="confirm"]').type('Password123')
 
         //in order to activate submit button, user has to click somewhere outside the input field
         cy.get('h2').contains('Password').click()
@@ -95,23 +96,63 @@ describe('This is first test suite', () => {
     /*
     Assignment 3: add the content to the following tests
     */
+    it('User can submit data only when valid mandatory values are added', () => {
+        cy.get('#username').type('Hainz123')
+        cy.get('#firstName').type('Hainz')
+        cy.get('#lastName').type('Hainzberg')
+        cy.get('[data-testid="phoneNumberTestId"]').type('555666777')
+        cy.get('input[name="password"]').type('Passhere112')
+        cy.get('[name="confirm"]').type('Passhere112')
+        cy.get('h2').contains('Password').click()
+        cy.get('.submit_button').should('be.enabled')
+        cy.get('.submit_button').click()
+        cy.get('#success_message').should('be.visible')
+
+    });
 
     it('User cannot submit data when phone number is absent', () => {
         // Add test, similar to previous one with phone number field not filled in
         // All other fields should be entered correctly
         // Assert that submit button is not enabled and that successful message is not visible
-    })
+        cy.get('#username').type('Hainz123')
+        cy.get('#firstName').type('Hainz')
+        cy.get('#lastName').type('Hainzberg')
+        cy.get('input[name="password"]').type('Passhere112')
+        cy.get('[name="confirm"]').type('Passhere112')
+        cy.get('h2').contains('Password').click()
+        cy.get('.submit_button').should('be.disabled')
+        cy.get('#success_message').should('not.be.visible')
+    
+    });
 
     it('User cannot submit data when password and/or confirmation password is absent', () => {
         // Add test, similar to previous one with password field not filled in
         // All other fields should be entered correctly
         // Assert that submit button is not enabled and that successful message is not visible
-    })
+        cy.get('#username').type('Hainz123')
+        cy.get('#firstName').type('Hainz')
+        cy.get('#lastName').type('Hainzberg')
+        cy.get('[data-testid="phoneNumberTestId"]').type('555666777')
+        cy.get('input[name="password"]').type('Passhere112')
+        cy.get('h2').contains('Password').click()
+        cy.get('.submit_button').should('be.disabled')
+        cy.get('#success_message').should('not.be.visible')    
+    });
 
     it('User cannot add letters to phone number', () => {
         // Next verification is given as example
         // how we can check from html code, that phone number should contain only numbers
         cy.get('[data-testid="phoneNumberTestId"]').should('have.attr', 'type', 'number')
+        cy.get('#username').type('Hainz123')
+        cy.get('#firstName').type('Hainz')
+        cy.get('#lastName').type('Hainzberg')
+        cy.get('[data-testid="phoneNumberTestId"]').type('hlamw')
+        cy.get('input[name="password"]').type('Passhere112')
+        cy.get('[name="confirm"]').type('Passhere112')
+        cy.get('h2').contains('section').click()
+        cy.get('.submit_button').should('be.disabled')
+        cy.get('#success_message').should('not.be.visible')    
+        
 
         // Add steps, when all fields are correctly filled in, except phone number
         // Try typing letters to phone number field
